@@ -410,48 +410,57 @@ russia = russia.drop('CO2 emissions (kt)', axis=0)
 russia = russia.loc[:, '1990':'2015':5]
 
 russia.plot(kind='bar',
-                       figsize=[10, 4],
-                       title='Sources of Electricity production in Russia',
-                       xlabel="Sources of electricity production",
-                       ylabel='Percentage of total electricity produced',
-                       color=["purple",
-                              'limegreen',
-                              'crimson',
-                              "c",
-                              "orange",
-                              "darkslategray"],
-                       rot=90)
+            figsize=[10, 4],
+            title='Sources of Electricity production in Russia',
+            xlabel="Sources of electricity production",
+            ylabel='Percentage of total electricity produced',
+            color=["purple",
+                   'limegreen',
+                   'crimson',
+                   "c",
+                   "orange",
+                   "darkslategray"],
+            rot=90)
 
 plt.savefig('Bar plot4', bbox_inches='tight')
 plt.show()
-             
-natural = c[(c['Indicator Name'] == ("Electricity production from natural gas sources (% of total)"))]
+
+# Explore the values for electricty production from natural gas sources
+# create a dataFrame for the natural gas indicator
+natural = c[(c['Indicator Name'] == (
+    "Electricity production from natural gas sources (% of total)"))]
 natural = natural[natural['Country Name'].isin(['China',
                                                 'Russian Federation',
                                                 'Brazil',
                                                 'Mexico',
                                                 'South Africa'])]
 
+# manpulating the data to achieve desired dataframe
 natural = natural.drop(['Country Code', 'Indicator Code',
-                        'Indicator Name'],axis=1)
+                        'Indicator Name'], axis=1)
 natural = natural.set_index('Country Name')
 natural = natural.drop(natural.loc[:, '1960':'1989'], axis=1)
 natural = natural.drop(natural.loc[:, '2016':'2021'], axis=1)
-x1 = natural.loc['Brazil',:]
-x2 = natural.loc['China',:]
-x3 = natural.loc['Mexico',:]
-x4 = natural.loc['Russian Federation',:]
-x5 = natural.loc['South Africa',:]
+
+# setting parameters for line plot of values
+x1 = natural.loc['Brazil', :]
+x2 = natural.loc['China', :]
+x3 = natural.loc['Mexico', :]
+x4 = natural.loc['Russian Federation', :]
+x5 = natural.loc['South Africa', :]
 x = natural.columns.astype(int)
 y = (x1, x2, x3, x4, x5)
-plt.plot(x, x1, label = 'Brazil', linestyle='--')
-plt.plot(x, x2, label = 'China', linestyle='--')
-plt.plot(x, x3, label = 'Mexico', linestyle='--')
-plt.plot(x, x4, label = 'Russia', linestyle='--')
-plt.plot(x, x5, label = 'South Africa', linestyle='--')
+
+# create line plot of values
+plt.plot(x, x1, label='Brazil', linestyle='--')
+plt.plot(x, x2, label='China', linestyle='--')
+plt.plot(x, x3, label='Mexico', linestyle='--')
+plt.plot(x, x4, label='Russia', linestyle='--')
+plt.plot(x, x5, label='South Africa', linestyle='--')
 plt.legend()
 plt.xlabel('Years')
 plt.ylabel('Electricity production from natural gas sources (% of total)',
            fontsize=7)
 plt.title('Electricity production from Natural Gas Sources')
-plt.savefig('Line Plot 2')
+
+plt.savefig('Line Plot 2')  # save plot
